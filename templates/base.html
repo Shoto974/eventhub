@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{% block title %} EventHub {% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>
-
+<body class="bg-gray-200 min-h-screen">
+<header class="flex w-full bg-black p-4 text-white">
+    <div class="flex-auto">
+        <h1 class="text-bold text-white text-xl">Eventhub</h1>
+    </div>
+    <div class="flex-auto">
+        <ul class="flex justify-around">
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">Créer un event</a></li>
+        </ul>
+    </div>
+    <div class="flex-auto flex justify-end">
+        <div class="mr-10">
+            {% block username %}Username{% endblock %}
+        </div>
+        <diV>
+            <button class="flex items-center gap-2 hover:text-red-600">
+                <svg class="w-5 h-5 stroke-current">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"></path>
+                </svg>
+                Déconnexion
+            </button>
+        </diV>
+    </div>
+</header>
+<main class="flex justify-between min-h-screen p-4 border-4 border-red-500">
+    {% block content %}{% endblock %}
+</main>
 </body>
 </html>
