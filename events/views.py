@@ -7,17 +7,17 @@ from events.models import Event
 # Create your views here.
 def events_list(request):
     events = Event.objects.all()
-    return render(request, 'events/events_list.html', {'events':events})
+    return render(request, 'events/events.html', {'events':events})
 
 def events_add(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
             event = form.save()
-            return redirect('event_detail', event.id)
+            return redirect('events_list')
     else:
         form = EventForm()
-    return render(request, 'events/event_add.html', {'form':form})
+    return render(request, 'events/event_form.html', {'form':form})
 
 def event_update(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
@@ -28,7 +28,7 @@ def event_update(request, event_id):
             return redirect('event_detail', event_id)
     else:
         form = EventForm(instance=event)
-    return render(request, 'events/event_update.html', {'form':form})
+    return render(request, 'events/event_form.html', {'form':form})
 
 def event_delete(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
