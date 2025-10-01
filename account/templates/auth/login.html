@@ -1,0 +1,19 @@
+{% extends "base_auth.html" %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+    <h1 class="text-xl font-bold mb-4">Connexion</h1>
+    <form action="" method="post" class="space-y-4">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Nom d’utilisateur"
+               class="input input-bordered w-full">
+        <input type="password" name="password" placeholder="Mot de passe"
+               class="input input-bordered w-full">
+        <button type="submit" class="btn bg-[#1A77F2] hover:bg-[#005fd8] text-white border-[#005fd8] w-full">Se
+            connecter
+        </button>
+        <div class="w-full text-xs text-center"><a href="/account/signin" class="text-blue-600">Créer un compte</a>
+        </div>
+    </form>
+{% endblock %}

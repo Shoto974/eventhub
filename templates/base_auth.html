@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Auth - EventHub{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <!-- WRAPPER commun, centré, même largeur que la card -->
+  <div class="w-full max-w-md space-y-4">
+
+    <!-- Messages (au-dessus, centrés et même largeur) -->
+    {% if messages %}
+      <div>
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            <span>{{ message }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- La card -->
+    <main class="p-6 bg-white rounded shadow">
+      {% block content %}{% endblock %}
+    </main>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+{% extends "base_auth.html" %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+    <h1 class="text-xl font-bold mb-4">Inscription</h1>
+    <form action="" method="post" class="space-y-4">
+        {% csrf_token %}
+
+        <!-- Username -->
+        <div class="form-control">
+            <label for="id_username" class="label">
+                <span class="label-text">Nom d’utilisateur</span>
+            </label>
+            <input id="id_username" type="text" name="username"
+                   value="{{ form.username.value|default:'' }}"
+                   class="input input-bordered w-full {% if form.username.errors %}input-error{% endif %}"
+                   minlength="3" placeholder="Nom d’utilisateur">
+            {% if form.username.errors %}
+                {% for err in form.username.errors %}
+                    <p class="text-sm text-red-500 mt-1">{{ err }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Email -->
+        <div class="form-control">
+            <label for="id_email" class="label">
+                <span class="label-text">Adresse mail</span>
+            </label>
+            <input id="id_email" type="email" name="email"
+                   value="{{ form.email.value|default:'' }}"
+                   class="input input-bordered w-full {% if form.email.errors %}input-error{% endif %}"
+                   placeholder="Adresse mail">
+            {% if form.email.errors %}
+                {% for err in form.email.errors %}
+                    <p class="text-sm text-red-500 mt-1">{{ err }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Password1 -->
+        <div class="form-control">
+            <label for="id_password1" class="label">
+                <span class="label-text">Mot de passe</span>
+            </label>
+            <input id="id_password1" type="password" name="password1"
+                   class="input input-bordered w-full {% if form.password1.errors %}input-error{% endif %}"
+                   placeholder="Mot de passe">
+            {% if form.password1.errors %}
+                {% for err in form.password1.errors %}
+                    <p class="text-sm text-red-500 mt-1">{{ err }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Password2 -->
+        <div class="form-control">
+            <label for="id_password2" class="label">
+                <span class="label-text">Confirmez le mot de passe</span>
+            </label>
+            <input id="id_password2" type="password" name="password2"
+                   class="input input-bordered w-full {% if form.password2.errors %}input-error{% endif %}"
+                   placeholder="Confirmez votre mot de passe">
+            {% if form.password2.errors %}
+                {% for err in form.password2.errors %}
+                    <p class="text-sm text-red-500 mt-1">{{ err }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Submit -->
+        <button type="submit"
+                class="btn bg-[#1A77F2] hover:bg-[#005fd8] text-white border-[#005fd8] w-full">
+            S'inscrire
+        </button>
+
+        <!-- Lien login -->
+        <div class="w-full text-xs text-center">
+            <a href="{% url 'login' %}" class="text-blue-600">Déjà inscrit ?</a>
+        </div>
+    </form>
+{% endblock %}
