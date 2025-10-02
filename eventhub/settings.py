@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'account',
     'tailwind',
     'theme',
-    'events'
+    'events',
+    'reviews',
+    'participation'
 ]
 
 MIDDLEWARE = [
