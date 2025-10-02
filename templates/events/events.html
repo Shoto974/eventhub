@@ -8,9 +8,11 @@
 <a href="{% url 'event_form' %}">Ajouter un nouvel évènement</a>
 <ul>
   {% for event in events %}
-  <li>
-    {{event.title}} - {{event.date}}
-  </li>
+    <li>
+      <a href="{% url 'event_detail' event.pk %}">{{ event.title }}
+      - {{ event.date }} - {{ event.location }}
+      </a>
+    </li>
   {% endfor %}
 </ul>
 

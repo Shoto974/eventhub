@@ -3,12 +3,19 @@
 {% block title %} Formulaire {% endblock %}
 
 {% block content %}
+<div>
+  <h1>Ajouter un évènement</h1>
+  <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
 
-<h1>Ajouter un évènement</h1>
-<form method="post">
-  {%csrf_token %}
-  {{form.as_p}}
-  <button type="submit">Soumettre</button>
-</form>
+      <h3>Images</h3>
+      {{ formset.management_form }}
+      {% for f in formset %}
+          {{ f.as_p }}
+      {% endfor %}
 
+      <button type="submit">Enregistrer</button>
+  </form>
+</div>
 {% endblock %}

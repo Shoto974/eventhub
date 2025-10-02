@@ -23,6 +23,7 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('account/', include('django.contrib.auth.urls')),
     path('events/', include('events.urls')),
+    path('reviews/', include('reviews.urls')),
 ]
 
 if settings.DEBUG:

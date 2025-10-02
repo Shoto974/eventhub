@@ -93,10 +93,12 @@ DATABASES = {
         "USER": "jessy",       # POSTGRES_USER
         "PASSWORD": "event",   # POSTGRES_PASSWORD
         "HOST": "localhost",   # ou "127.0.0.1"
-        "PORT": "5432",
+        "PORT": "54321",
     }
 }
 
+LOGIN_URL = '/account/login/'
+LOGIN_REDIRECT_URL = '/events/'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

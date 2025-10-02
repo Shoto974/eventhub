@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block content %}
+<div>
+    <h2>{{ event.title }}</h2>
+    {% if event.images.first %}
+      <img src="{{ event.images.first.url }}" alt="image de l'événement"/>
+    {% endif %}  <p><strong>Date :</strong> {{ event.date }}</p>
+    <p><strong>Lieu :</strong> {{ event.location }}</p>
+    <p><strong>Capacité :</strong> {{ event.capacity }}</p>
+    <br/>
+    <p><strong>Description :</strong> {{ event.description }}</p>
+    <br/>
+    <p><strong>Catégorie :</strong> {{ event.category.name }}</p>
+    <p><strong>Organisateur :</strong> {{ event.organizer.username }}</p>
+    <br/>
+    <p><em>Créé le : {{ event.created_at }}</em></p>
+    <p><em>Dernière mise à jour : {{ event.updated_at }}</em></p>
+    <br/>
+    <a href="{% url 'event_update' event.pk %}">Modifier</a> |
+    <a href="{% url 'event_delete' event.pk %}">Supprimer</a> |
+    <a href="{% url 'events_list' %}">Retour à la liste</a>
+  </div>
+{% endblock %}

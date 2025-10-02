@@ -1,35 +1,53 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from events.forms import EventForm
+from events.forms import EventForm, EventImageFormSet
 from events.models import Event
 
 
-# Create your views here.
+@login_required
 def events_list(request):
     events = Event.objects.all()
     return render(request, 'events/events.html', {'events':events})
 
+@login_required
+def event_detail(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    return render(request, 'events/event_detail.html', {'event': event})
+
+@login_required
 def events_add(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
-        if form.is_valid():
-            event = form.save()
-            return redirect('events_list')
+        formset = EventImageFormSet(request.POST)
+        if form.is_valid() and formset.is_valid():
+            event = form.save(commit=False)
+            event.organizer = request.user
+            event.save()
+            formset.instance = event
+            formset.save()
+            return redirect('event_detail', event_id=event.id)
     else:
         form = EventForm()
-    return render(request, 'events/event_form.html', {'form':form})
+        formset = EventImageFormSet()
+    return render(request, 'events/event_form.html', {'form':form, 'formset':formset})
 
+@login_required
 def event_update(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':
         form = EventForm(request.POST, instance=event)
-        if form.is_valid():
+        formset = EventImageFormSet(request.POST, instance=event)
+        if form.is_valid() and formset.is_valid():
             form.save()
-            return redirect('event_detail', event_id)
+            formset.save()
+            return redirect('event_detail', event_id=event.id)
     else:
         form = EventForm(instance=event)
-    return render(request, 'events/event_form.html', {'form':form})
+        formset = EventImageFormSet(instance=event)
+    return render(request, 'events/event_form.html', {'form':form, 'formset':formset})
 
+@login_required
 def event_delete(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':

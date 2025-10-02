@@ -25,7 +25,7 @@ class Event(models.Model):
 
 
 class EventImage(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE,related_name="images")
     url = models.URLField()
 
     def __str__(self):
