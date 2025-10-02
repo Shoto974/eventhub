@@ -6,7 +6,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css"/>
 </head>
-<body class="bg-gray-200 min-h-screen">
+<body class="bg-gray-200 min-h-screen overflow-hidden">
 <header class="flex w-full bg-black p-4 text-white">
     <div class="flex-auto">
         <h1 class="text-bold text-white text-xl">Eventhub</h1>
@@ -32,7 +32,7 @@
         </diV>
     </div>
 </header>
-<main class="flex justify-between min-h-screen p-4 border-4 border-red-500">
+<main class="flex justifiy-center gap-[4vw] min-h-screen p-4 ">
     {% block content %}{% endblock %}
 </main>
 </body>
