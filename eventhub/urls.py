@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth.views import LogoutView
+from django.shortcuts import redirect
 from django.urls import path, include
 
 urlpatterns = [
@@ -23,6 +25,8 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('account/', include('django.contrib.auth.urls')),
     path('events/', include('events.urls')),
+    path('', lambda request: redirect('events_list')),
+    path("logout/", LogoutView.as_view(next_page="login"), name="logout"),
 ]
 
 if settings.DEBUG:
