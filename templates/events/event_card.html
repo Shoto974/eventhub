@@ -3,48 +3,47 @@
 <script type="text/javascript" src="{% static 'events/filter.js' %}"></script>
 {% if events %}
     {% for event in events %}
-        <div class="card bg-white relative ">
-            <figure>
+        <div class="card bg-white relative h-[500px] flex flex-col">
+            <figure class="h-48 overflow-hidden">
                 <img src="https://images.pexels.com/photos/32763753/pexels-photo-32763753.jpeg"
-                     alt="Image {{ event.title }}">
+                     alt="Image {{ event.title }}"
+                     class="w-full h-full object-cover">
             </figure>
-            <div class="card-body">
-                <h2 class="card-title">{{ event.title }}</h2>
-                <p>Catégorie : {{ event.category }}</p>
-                <p>Inscrits : {{ event.get_participations.count }} / {{ event.capacity }} personnes</p>
-                <p>Lieu : {{ event.location }}</p>
-                <p>Date : {{ event.date }}</p>
-                <div class="mt-6">
+            <div class="card-body p-4 flex-1 flex flex-col">
+                <h2 class="card-title text-lg">{{ event.title }}</h2>
+                <p class="text-sm">Catégorie : {{ event.category }}</p>
+                <p class="text-sm">Inscrits : {{ event.get_participations.count }} / {{ event.capacity }} personnes</p>
+                <p class="text-sm">Lieu : {{ event.location }}</p>
+                <p class="text-sm">Date : {{ event.date }}</p>
+                <div class="mt-auto pt-4">
                     {% if user.role == "user" %}
                         {% if event|is_participant:user %}
-                            <button class="btn btn-block bg-blue-500 text-bold hover:bg-blue-400">Reviews
+                            <button class="btn btn-block bg-blue-500 text-white hover:bg-blue-400 btn-sm">Reviews
                             </button>
                         {% else %}
-                            <button class="btn btn-block bg-green-500 text-bold hover:bg-green-400">Participer
+                            <button class="btn btn-block bg-green-500 text-white hover:bg-green-400 btn-sm">Participer
                             </button>
                         {% endif %}
                     {% else %}
-                        <button class="btn btn-block bg-orange-500 text-bold hover:bg-orange-400">Modifier
+                        <button class="btn btn-block bg-orange-500 text-white hover:bg-orange-400 btn-sm">Modifier
                         </button>
                     {% endif %}
                 </div>
             </div>
 
-            <div class="absolute top-1 right-1">
-                <button class="btn bg-blue-100 hover:bg-blue-100">
+            <div class="absolute top-2 right-2">
+                <button class="btn btn-sm bg-blue-100 hover:bg-blue-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="size-6">
+                         stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"></path>
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
                     </svg>
-
                 </button>
             </div>
-
         </div>
     {% endfor %}
-    {% else %}
-    <div class="font-bold text-center ">Aucun évênement correspondant à vos recherches</div>
+{% else %}
+    <div class="col-span-full font-bold text-center text-xl py-10">Aucun événement correspondant à vos recherches</div>
 {% endif %}
