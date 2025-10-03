@@ -3,9 +3,9 @@
 <script type="text/javascript" src="{% static 'events/filter.js' %}"></script>
 {% if events %}
     {% for event in events %}
-        <div class="card bg-white relative h-[500px] flex flex-col">
+        <div id="event-card-{{ event.id }}" class="card bg-white relative h-[500px] flex flex-col">
             <figure class="h-48 overflow-hidden">
-                <img src="https://images.pexels.com/photos/32763753/pexels-photo-32763753.jpeg"
+                <img src="{{ event.images.first.url }}"
                      alt="Image {{ event.title }}"
                      class="w-full h-full object-cover">
             </figure>
@@ -18,21 +18,36 @@
                 <div class="mt-auto pt-4">
                     {% if user.role == "user" %}
                         {% if event|is_participant:user %}
-                            <button class="btn btn-block bg-blue-500 text-white hover:bg-blue-400 btn-sm">Reviews
-                            </button>
+                            <a href="{% url 'event_detail' event.id %}"
+                               class="btn btn-block bg-blue-500 text-white hover:bg-blue-400 btn-sm">
+                                Reviews
+                            </a>
+                            <form method="post" action="{% url 'participation:events_unparticipate' event.id %}">
+                                {% csrf_token %}
+                                <button type="submit"
+                                        class="btn btn-block bg-red-500 text-white hover:bg-red-400 btn-sm">
+                                    Se désinscrire
+                                </button>
+                            </form>
                         {% else %}
-                            <button class="btn btn-block bg-green-500 text-white hover:bg-green-400 btn-sm">Participer
-                            </button>
+                            <form method="post" action="{% url 'events_participate' event.id %}">
+                                {% csrf_token %}
+                                <button type="submit"
+                                        class="btn btn-block bg-green-500 text-white hover:bg-green-400 btn-sm">
+                                    Participer
+                                </button>
+                            </form>
                         {% endif %}
                     {% else %}
-                        <button class="btn btn-block bg-orange-500 text-white hover:bg-orange-400 btn-sm">Modifier
-                        </button>
+                        <a href="{% url 'event_detail' event.id %}"
+                           class="btn btn-block bg-orange-500 text-white hover:bg-orange-400 btn-sm">Modifier
+                        </a>
                     {% endif %}
                 </div>
             </div>
 
             <div class="absolute top-2 right-2">
-                <button class="btn btn-sm bg-blue-100 hover:bg-blue-200">
+                <a href="{% url 'event_detail' event.id %}" class="btn btn-sm bg-blue-100 hover:bg-blue-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                          stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -40,7 +55,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
     {% endfor %}

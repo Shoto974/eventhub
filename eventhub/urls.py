@@ -27,6 +27,7 @@ urlpatterns = [
     path('events/', include('events.urls')),
     path('', lambda request: redirect('events_list')),
     path("logout/", LogoutView.as_view(next_page="login"), name="logout"),
+    path("participation/", include(("participation.urls", "participation"), namespace="participation")),
 ]
 
 if settings.DEBUG:

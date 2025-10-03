@@ -3,8 +3,12 @@ from django.contrib.auth import authenticate
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-
+from django.views.decorators.http import require_POST
+from pyexpat.errors import messages
+from django.contrib import messages
 from events.forms import EventForm, EventImageFormSet
+from participation.models import Participation
+from reviews.forms import ReviewForm
 from reviews.models import Review
 from events.forms import EventForm
 from events.models import Event, Category
@@ -97,7 +101,7 @@ def event_delete(request, event_id):
         return redirect('events_list')
     return render(request, 'events/events_list.html', {'event':event})
 
-
+@login_required
 def events_filtered(request):
     date_deb = request.GET.get('date_deb')
     date_fin = request.GET.get('date_fin')
@@ -122,6 +126,29 @@ def events_filtered(request):
     html = render_to_string('events/event_card.html', {
         'events': qs,
         'user': request.user
-    })
+    }, request=request)
 
     return HttpResponse(html)
+
+@login_required
+@require_POST
+def event_participate(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+
+    # Déjà inscrit
+    if Participation.objects.filter(event=event, user=request.user).exists():
+        messages.info(request, "Tu es déjà inscrit à cet événement.")
+        return redirect(request.POST.get("next") or "events_list")
+
+    # Event full
+    current = Participation.objects.filter(event=event).count()
+    if event.capacity is not None and current >= event.capacity:
+        messages.error(request, "Événement complet.")
+        return redirect(request.POST.get("next") or "events_list")
+
+    # Ok, on inscrit
+    Participation.objects.create(event=event, user=request.user)
+    messages.success(request, "Inscription confirmée.")
+
+    # Retour à la page précédente ou fallback liste
+    return redirect(request.POST.get("next") or "events_list")
