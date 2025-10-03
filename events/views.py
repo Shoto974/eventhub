@@ -10,6 +10,9 @@ from events.models import Event, Category
 # Create your views here.
 def events_list(request):
     events = Event.objects.all()
+
+    if request.user.role == "orga":
+        events = events.filter(organizer=request.user)
     categories = Category.objects.all()
     print(categories)
     return render(request, 'events/events.html',
