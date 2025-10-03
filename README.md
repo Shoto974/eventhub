@@ -23,16 +23,6 @@ python manage.py runserver
 
 Appli dispo sur http://127.0.0.1:8000/
 
-🐘 Base de données (Docker)
-
-Le projet inclut un docker-compose.yml qui lance PostgreSQL 15 et monte ./dump.sql dans le dossier d’init (/docker-entrypoint-initdb.d/) pour un import automatique lors de la création du volume. 
-
-docker-compose
-
-Service / credentials par défaut : container_name: postgres-db, DB=events, USER=jessy, PASSWORD=event, port hôte 5432. 
-
-docker-compose
-
 # Démarrage
 docker compose up -d
 
