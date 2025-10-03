@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load event_extras %}
 
 {% block title %}{{ event.title }}{% endblock %}
 
@@ -73,7 +74,7 @@
       <p class="text-gray-500 mb-12">Aucun avis pour cet événement.</p>
     {% endif %}
 
-{% if user.is_authenticated %}
+{% if user.is_authenticated and event|is_participant:user %}
   <div class="bg-gray-50 border rounded-lg p-6">
     <h3 class="text-xl font-semibold text-gray-800 mb-4">Laisser un avis</h3>
     <form method="post" class="space-y-4">

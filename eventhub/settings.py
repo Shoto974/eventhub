@@ -93,7 +93,7 @@ DATABASES = {
         "USER": "jessy",       # POSTGRES_USER
         "PASSWORD": "event",   # POSTGRES_PASSWORD
         "HOST": "localhost",   # ou "127.0.0.1"
-        "PORT": "54321",
+        "PORT": "5432",
     }
 }
 
