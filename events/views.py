@@ -1,16 +1,25 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
 
 from events.forms import EventForm, EventImageFormSet
-from events.models import Event
-from reviews.forms import ReviewForm
 from reviews.models import Review
+from events.forms import EventForm
+from events.models import Event, Category
 
 
 @login_required
 def events_list(request):
     events = Event.objects.all()
-    return render(request, 'events/events.html', {'events':events})
+
+    if request.user.role == "orga":
+        events = events.filter(organizer=request.user)
+    categories = Category.objects.all()
+    print(categories)
+    return render(request, 'events/events.html',
+                  {'events':events, 'categories':categories, 'user':request.user})
 
 @login_required
 def event_detail(request, event_id):
@@ -87,3 +96,32 @@ def event_delete(request, event_id):
         event.delete()
         return redirect('events_list')
     return render(request, 'events/events_list.html', {'event':event})
+
+
+def events_filtered(request):
+    date_deb = request.GET.get('date_deb')
+    date_fin = request.GET.get('date_fin')
+    category = request.GET.get('category')
+    capacity = request.GET.get('capacity')
+
+    qs = Event.objects.all()
+    html = ""
+
+    if date_deb:
+        qs = qs.filter(date__gte=date_deb)
+
+    if date_fin:
+        qs = qs.filter(date__lte=date_fin)
+
+    if category:
+        qs = qs.filter(category_id=category)
+
+    if capacity:
+        qs = qs.filter(capacity__lte=capacity)
+
+    html = render_to_string('events/event_card.html', {
+        'events': qs,
+        'user': request.user
+    })
+
+    return HttpResponse(html)

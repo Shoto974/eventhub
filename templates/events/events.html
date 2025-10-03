@@ -1,19 +1,54 @@
 {% extends "base.html" %}
-
 {% block title %} Liste des events {% endblock %}
 
 {% block content %}
+    <div class="flex flex-col lg:flex-row gap-6 w-full h-[calc(100vh-120px)]">
+        <aside class="w-full lg:w-1/4 lg:h-full">
+            <div class="fieldset bg-white rounded-lg shadow p-6 lg:sticky lg:top-4">
+                <legend class="fieldset-legend mb-6 font-bold text-xl">Filtrer les events</legend>
 
-<h1>Évènements</h1>
-<a href="{% url 'event_form' %}">Ajouter un nouvel évènement</a>
-<ul>
-  {% for event in events %}
-    <li>
-      <a href="{% url 'event_detail' event.pk %}">{{ event.title }}
-      - {{ event.date }} - {{ event.location }}
-      </a>
-    </li>
-  {% endfor %}
-</ul>
+                <fieldset class="fieldset w-full mb-4">
+                    <legend class="fieldset-legend mb-2 text-sm">Date min</legend>
+                    <input id="date-deb" type="date" class="input input-bordered w-full"/>
+                </fieldset>
 
+                <fieldset class="fieldset w-full mb-4">
+                    <legend class="fieldset-legend mb-2 text-sm">Date max</legend>
+                    <input id="date-fin" type="date" class="input input-bordered w-full"/>
+                </fieldset>
+
+                <fieldset class="fieldset w-full mb-4">
+                    <legend class="fieldset-legend mb-2 text-sm">Catégorie</legend>
+                    <select id="cat" class="select select-bordered w-full">
+                        <option disabled selected value="">Choisissez une catégorie</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </fieldset>
+
+                <fieldset class="fieldset w-full mb-6">
+                    <legend class="fieldset-legend mb-2 text-sm">Nombre de personnes max</legend>
+                    <input type="number" class="input input-bordered w-full" placeholder="Entre 1 et 500"
+                           min="1" max="500" id="cap"/>
+                </fieldset>
+
+                <button id="btn-filter" class="btn w-full bg-blue-500 text-white hover:bg-blue-400"
+                        onclick="events_filter()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"></path>
+                    </svg>
+                    Filtrer
+                </button>
+            </div>
+        </aside>
+
+        <main class="flex-1 w-full lg:w-3/4 overflow-y-auto">
+            <div id="event_list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 pb-6">
+                {% include "events/event_card.html" %}
+            </div>
+        </main>
+    </div>
 {% endblock %}

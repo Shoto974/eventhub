@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 
+from participation.models import Participation
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -22,6 +24,15 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.date}"
+
+    def get_image_url(self):
+        image = self.eventimage_set.first()
+        return image.url if image else None
+
+    def get_participations(self):
+        return self.participation_set.all()
+
+
 
 
 class EventImage(models.Model):
